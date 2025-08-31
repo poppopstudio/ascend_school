@@ -18,3 +18,11 @@ use Drupal\Core\Hook\LegacyHook;
 function ascend_school_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   \Drupal::service(SchoolHooks::class)->formAlter($form, $form_state, $form_id);
 }
+
+function ascend_school_gin_content_form_routes(): array {
+  return [
+    // School entity edit form handled by gin (to get sidebar).
+    'entity.school.add_form',
+    'entity.school.edit_form',
+  ];
+}
