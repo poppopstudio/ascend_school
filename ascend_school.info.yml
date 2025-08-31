@@ -1,0 +1,9 @@
+name: Ascend school
+type: module
+description: 'Ascend school'
+core_version_requirement: ^10 || ^11
+dependencies:
+  # - ascend_audit
+  - entity:entity
+  - entity_admin_handlers:entity_admin_handlers
+  - views:views

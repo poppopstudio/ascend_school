@@ -1,0 +1,5 @@
+entity.school.field_ui:
+  title: School settings
+  description: Create and manage fields, forms, and display settings for schools.
+  route_name: entity.school.field_ui_base
+  parent: system.admin_structure

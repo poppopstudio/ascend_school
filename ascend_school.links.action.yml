@@ -1,0 +1,6 @@
+entity.school.add:
+  title: Add School
+  route_name: entity.school.add_form
+  weight: 15
+  appears_on:
+    - entity.school.collection

@@ -1,0 +1,4 @@
+services:
+  Drupal\ascend_school\Hook\SchoolHooks:
+    class: Drupal\ascend_school\Hook\SchoolHooks
+    autowire: true

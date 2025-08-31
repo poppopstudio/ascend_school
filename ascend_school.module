@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Contains hook implementations for the Ascend school module.
+ */
+
+use Drupal\ascend_school\Hook\SchoolHooks;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\LegacyHook;
+
+/**
+ * Legacy hook implementation.
+ *
+ * @todo Remove this method when support for Drupal core < 11.1 is dropped.
+ */
+#[LegacyHook]
+function ascend_school_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::service(SchoolHooks::class)->formAlter($form, $form_state, $form_id);
+}
