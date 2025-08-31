@@ -24,7 +24,10 @@ use Drupal\user\EntityOwnerTrait;
  *   ),
  *   base_table = "school",
  *   revision_table = "school_revision",
+ *   show_revision_ui = TRUE,
+ *   collection_permission = "access school overview",
  *   handlers = {
+ *     "access" = "Drupal\entity\EntityAccessControlHandler",
  *     "route_provider" = {
  *       "html" = "Drupal\entity_admin_handlers\SingleBundleEntity\SingleBundleEntityHtmlRouteProvider",
  *       "revision" = \Drupal\Core\Entity\Routing\RevisionHtmlRouteProvider::class,
@@ -50,6 +53,11 @@ use Drupal\user\EntityOwnerTrait;
  *     "uid" = "uid",
  *     "published" = "status",
  *   },
+ *   revision_metadata_keys = {
+ *     "revision_user" = "revision_uid",
+ *     "revision_created" = "revision_timestamp",
+ *     "revision_log_message" = "revision_log"
+ *   },
  *   field_ui_base_route = "entity.school.field_ui_base",
  *   links = {
  *     "add-form" = "/school/add",
@@ -57,7 +65,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "collection" = "/admin/content/school",
  *     "delete-form" = "/school/{school}/delete",
  *     "edit-form" = "/school/{school}/edit",
- *     "field-ui-base" = "/admin/structure/resource",
+ *     "field-ui-base" = "/admin/structure/school",
  *     "version-history" = "/admin/structure/school/{school}/revisions",
  *     "revision" = "/admin/structure/school/{school}/revisions/{school_revision}/view",
  *     "revision-revert-form" = "/admin/structure/school/{school}/revisions/{school_revision}/revert",
