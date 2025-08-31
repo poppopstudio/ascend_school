@@ -70,7 +70,6 @@ use Drupal\user\EntityOwnerTrait;
  *     "revision" = "/admin/structure/school/{school}/revisions/{school_revision}/view",
  *     "revision-revert-form" = "/admin/structure/school/{school}/revisions/{school_revision}/revert",
  *     "revision-delete-form" = "/admin/structure/school/{school}/revisions/{school_revision}/delete",
- *     "translation_revert" = "/admin/structure/school/{school}/revisions/{school_revision}/revert/{langcode}",
  *   },
  * )
  */
