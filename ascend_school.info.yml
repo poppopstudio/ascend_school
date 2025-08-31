@@ -1,5 +1,6 @@
 name: Ascend school
 type: module
+package: Ascend
 description: 'Ascend school'
 core_version_requirement: ^10 || ^11
 dependencies:
