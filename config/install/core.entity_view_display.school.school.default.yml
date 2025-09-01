@@ -5,9 +5,39 @@ dependencies:
     - field.field.school.school.ascend_sch_auditor
     - field.field.school.school.ascend_sch_cluster
     - field.field.school.school.ascend_sch_dfe
+    - field.field.school.school.ascend_sch_stage
   module:
     - ascend_school
-    - user
+    - field_group
+third_party_settings:
+  field_group:
+    group_details:
+      children:
+        - ascend_sch_cluster
+        - ascend_sch_dfe
+        - ascend_sch_stage
+        - ascend_sch_auditor
+      label: Details
+      parent_name: ''
+      region: content
+      weight: 1
+      format_type: field_group_table
+      format_settings:
+        show_empty_fields: 0
+        label_as_html: 0
+        id: ''
+        classes: ''
+        label_visibility: '3'
+        desc: ''
+        desc_visibility: '2'
+        first_column: ''
+        second_column: ''
+        empty_label_behavior: '1'
+        table_row_striping: 0
+        always_show_field_label: 0
+        always_show_field_value: 0
+        empty_field_placeholder: ''
+        hide_table_if_empty: 1
 id: school.school.default
 targetEntityType: school
 bundle: school
@@ -19,7 +49,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 3
+    weight: 5
     region: content
   ascend_sch_cluster:
     type: entity_reference_label
@@ -27,7 +57,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
   ascend_sch_dfe:
     type: number_integer
@@ -36,34 +66,25 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
-  created:
-    type: timestamp
-    label: hidden
+  ascend_sch_stage:
+    type: entity_reference_label
+    label: above
     settings:
-      date_format: medium
-      custom_date_format: ''
-      timezone: ''
-      tooltip:
-        date_format: long
-        custom_date_format: ''
-      time_diff:
-        enabled: false
-        future_format: '@interval hence'
-        past_format: '@interval ago'
-        granularity: 2
-        refresh: 60
+      link: true
     third_party_settings: {  }
-    weight: 0
+    weight: 4
     region: content
-  uid:
-    type: author
-    label: inline
-    settings: {  }
+  title:
+    type: string
+    label: visually_hidden
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
   changed: true
-  title: true
+  created: true
+  uid: true

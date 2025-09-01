@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.school.ascend_sch_stage
+    - taxonomy.vocabulary.stage
+  module:
+    - ascend_school
+id: school.school.ascend_sch_stage
+field_name: ascend_sch_stage
+entity_type: school
+bundle: school
+label: Stage
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      stage: stage
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

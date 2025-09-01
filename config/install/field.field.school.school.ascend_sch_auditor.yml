@@ -27,9 +27,9 @@ settings:
       type: role
       role:
         auditor: auditor
-        user_manager: '0'
         content_editor: '0'
         administrator: '0'
+        user_manager: '0'
         resource_manager: '0'
     include_anonymous: false
 field_type: entity_reference
