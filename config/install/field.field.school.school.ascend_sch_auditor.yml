@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.school.ascend_sch_auditor
+  module:
+    - ascend_school
+id: school.school.ascend_sch_auditor
+field_name: ascend_sch_auditor
+entity_type: school
+bundle: school
+label: Auditor
+description: 'Select the Auditor (usually the SENCO) for this school. NB the user must already exist in the system in order to be selected.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        auditor: auditor
+        user_manager: '0'
+        content_editor: '0'
+        administrator: '0'
+        resource_manager: '0'
+    include_anonymous: false
+field_type: entity_reference

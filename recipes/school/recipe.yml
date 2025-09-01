@@ -1,0 +1,28 @@
+name: 'Ascend school setup'
+description: 'Ascend school setup recipe - installs modules and sets up config'
+type: 'Content type'
+recipes:
+  # Can't depend on other recipes outside of this dir or core!
+install:
+  - ascend_school
+config:
+  strict: true
+  import:
+    ascend_school: '*'
+  # actions:
+  #   user.role.anonymous:
+  #     grantPermissions:
+  #       - 'view resource'
+  #       - 'download media'
+  #   user.role.authenticated:
+  #     grantPermissions:
+  #       - 'view resource'
+  #       - 'download media'
+  #   user.role.content_editor:
+  #     grantPermissions:
+  #       - 'edit terms in category'
+  #       - 'use taxonomy_term.edit_info form mode'
+  #       # Access the Files overview page ?
+  #   user.role.user_manager:
+  #     grantPermissions:
+  #       - 'assign resource_manager role'

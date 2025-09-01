@@ -8,3 +8,14 @@ dependencies:
   - entity:entity
   - entity_admin_handlers:entity_admin_handlers
   - views:views
+
+config_devel:
+  - core.entity_form_display.school.school.default
+  - core.entity_view_display.school.school.default
+  - field.field.school.school.ascend_sch_auditor
+  - field.field.school.school.ascend_sch_cluster
+  - field.field.school.school.ascend_sch_dfe
+  - field.storage.school.ascend_sch_auditor
+  - field.storage.school.ascend_sch_cluster
+  - field.storage.school.ascend_sch_dfe
+  - taxonomy.vocabulary.cluster

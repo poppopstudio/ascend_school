@@ -1,0 +1,27 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: 03b8a515-3b1b-4eee-bf03-5bec7c7bd4ef
+  bundle: cluster
+  default_langcode: en
+default:
+  status:
+    -
+      value: true
+  name:
+    -
+      value: 'Sowerby Bridge'
+  weight:
+    -
+      value: 0
+  parent:
+    -
+      target_id: 0
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
