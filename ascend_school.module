@@ -8,6 +8,7 @@
 use Drupal\ascend_school\Hook\SchoolHooks;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\LegacyHook;
+use Drupal\Core\Render\Element;
 
 /**
  * Legacy hook implementation.
@@ -17,6 +18,31 @@ use Drupal\Core\Hook\LegacyHook;
 #[LegacyHook]
 function ascend_school_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   \Drupal::service(SchoolHooks::class)->formAlter($form, $form_state, $form_id);
+}
+
+
+/**
+ * These two function were required in order to add compatibility with
+ *  field_group module. This also necessitated the school.html.twig template.
+ *  https://www.drupal.org/project/field_group/issues/2859858
+ */
+
+function ascend_school_theme($existing, $type, $theme, $path) {
+  return [
+    'school' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+function template_preprocess_school(&$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  // Helpful $content variable for templates.
+  $variables += ['content' => []];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
 }
 
 function ascend_school_gin_content_form_routes(): array {
