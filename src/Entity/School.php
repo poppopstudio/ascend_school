@@ -5,6 +5,7 @@ namespace Drupal\ascend_school\Entity;
 use Drupal\Core\Entity\EditorialContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityPublishedTrait;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\user\EntityOwnerTrait;
@@ -154,6 +155,53 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
       ->setDisplayConfigurable('form', TRUE);
 
     return $fields;
+  }
+
+  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+
+    // Update auditor's working school after save.
+    $this->updateAuditorWorkingSchool();
+  }
+
+  /**
+   * Update the associated auditor's working school if not set.
+   */
+  protected function updateAuditorWorkingSchool() {
+    $auditor = $this->get('auditor');
+
+    if ($auditor->isEmpty()) {
+      return;
+    }
+
+    $auditor_uid = $auditor->target_id;
+
+    // Load auditor profile
+    $auditor_profiles = \Drupal::entityTypeManager()
+      ->getStorage('auditor')
+      ->loadByProperties(['user_id' => $auditor_uid]);
+
+    if (empty($auditor_profiles)) {
+      return;
+    }
+
+    /** @var auditor_profile \Drupal\profile\Entity\Profile */
+    $auditor_profile = reset($auditor_profiles);
+    $working_school = $auditor_profile->get('auditor_p_working_school');
+
+    // Only set if not already set.
+    if ($working_school->isEmpty()) {
+      $auditor_profile->set('auditor_p_working_school', $this->id());
+      $auditor_profile->save();
+
+      // Log the action.
+      \Drupal::logger('ascend_school')->info('Set @school_title (@school_id) as working school for auditor @auditor_id', [
+        '@school_title' => $this->get('title'),
+        '@school_id' => $this->id(),
+        // '@auditor_id' => $auditor_profile->id(),
+        '@auditor_id' => $auditor_profile->id(),
+      ]);
+    }
   }
 
 }
