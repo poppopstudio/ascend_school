@@ -15,9 +15,7 @@ config_devel:
   - field.field.school.school.ascend_sch_auditor
   - field.field.school.school.ascend_sch_cluster
   - field.field.school.school.ascend_sch_dfe
-  # - field.field.school.school.ascend_sch_stage
   - field.storage.school.ascend_sch_auditor
   - field.storage.school.ascend_sch_cluster
   - field.storage.school.ascend_sch_dfe
-  # - field.storage.school.ascend_sch_stage
   - taxonomy.vocabulary.cluster
