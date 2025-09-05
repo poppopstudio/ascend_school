@@ -201,7 +201,7 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
       $auditor_user = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id);
       $auditor_name = $auditor_user->getDisplayName();
 
-      $message = 'Additionally created a profile for auditor @auditor_name (ID: @auditor_id) and set their working school to @school_name (ID: @school_id).';
+      $message = 'Created a profile for auditor @auditor_name (ID: @auditor_id) and set their working school to @school_name (ID: @school_id).';
       $context = [
         '@school_name' => $this->label(),
         '@school_id' => $this->id(),
