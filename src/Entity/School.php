@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\profile\Entity\Profile;
 use Drupal\user\EntityOwnerTrait;
 
 /**
@@ -168,39 +169,48 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
    * Update the associated auditor's working school if not set.
    */
   protected function updateAuditorWorkingSchool() {
-    $auditor = $this->get('auditor');
+    // It is assumed the auditor field only stores auditors, per settings!
+    $auditor_id = $this->get('ascend_sch_auditor')->target_id;
 
-    if ($auditor->isEmpty()) {
+    if (!$auditor_id) {
       return;
     }
 
-    $auditor_uid = $auditor->target_id;
-
-    // Load auditor profile
+    // Load auditor profile.
     $auditor_profiles = \Drupal::entityTypeManager()
-      ->getStorage('auditor')
-      ->loadByProperties(['user_id' => $auditor_uid]);
+      ->getStorage('profile')
+      ->loadByProperties([
+        'uid' => $auditor_id,
+        'type' => 'auditor'
+      ]);
 
     if (empty($auditor_profiles)) {
-      return;
-    }
 
-    /** @var auditor_profile \Drupal\profile\Entity\Profile */
-    $auditor_profile = reset($auditor_profiles);
-    $working_school = $auditor_profile->get('auditor_p_working_school');
+      $auditor_profile = Profile::create([
+        'type' => 'auditor',
+        'uid' => $auditor_id,
+        'ascend_p_school' => ['target_id' => $this->id()]
+      ]);
 
-    // Only set if not already set.
-    if ($working_school->isEmpty()) {
-      $auditor_profile->set('auditor_p_working_school', $this->id());
+      $auditor_profile->setDefault(TRUE);
       $auditor_profile->save();
 
-      // Log the action.
-      \Drupal::logger('ascend_school')->info('Set @school_title (@school_id) as working school for auditor @auditor_id', [
-        '@school_title' => $this->get('title'),
+      // Log the action AND show on-screen message.
+
+      /** @var $auditor_user Drupal\user\entity\User */
+      $auditor_user = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id);
+      $auditor_name = $auditor_user->getDisplayName();
+
+      $message = 'Additionally created a profile for auditor @auditor_name (ID: @auditor_id) and set their working school to @school_name (ID: @school_id).';
+      $context = [
+        '@school_name' => $this->label(),
         '@school_id' => $this->id(),
-        // '@auditor_id' => $auditor_profile->id(),
-        '@auditor_id' => $auditor_profile->id(),
-      ]);
+        '@auditor_id' => $auditor_id,
+        '@auditor_name' => $auditor_name
+      ];
+
+      \Drupal::logger('ascend_school')->info($message, $context);
+      \Drupal::messenger()->addMessage(t($message, $context));
     }
   }
 
