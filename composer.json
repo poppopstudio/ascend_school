@@ -2,6 +2,7 @@
     "name": "poppopstudio/ascend_school",
     "description": "Ascend project school",
     "type": "drupal-custom-module",
+    "license": "proprietary",
     "authors": [
         {
             "name": "NikLP",
