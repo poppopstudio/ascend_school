@@ -176,7 +176,7 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
       return;
     }
 
-    // Load auditor profile.
+    // Attempt to load auditor profile.
     $auditor_profiles = \Drupal::entityTypeManager()
       ->getStorage('profile')
       ->loadByProperties([
@@ -184,6 +184,7 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
         'type' => 'auditor'
       ]);
 
+    // If the auditor doesn't have a profile we can safely create one.
     if (empty($auditor_profiles)) {
 
       $auditor_profile = Profile::create([
@@ -196,7 +197,6 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
       $auditor_profile->save();
 
       // Log the action AND show on-screen message.
-
       /** @var $auditor_user Drupal\user\entity\User */
       $auditor_user = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id);
       $auditor_name = $auditor_user->getDisplayName();
