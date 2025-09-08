@@ -22,7 +22,7 @@ function ascend_school_form_alter(&$form, FormStateInterface $form_state, $form_
 
 
 /**
- * These two function were required in order to add compatibility with
+ * These two functions were required in order to add compatibility with
  *  field_group module. This also necessitated the school.html.twig template.
  *  https://www.drupal.org/project/field_group/issues/2859858
  */
