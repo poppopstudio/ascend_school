@@ -4,10 +4,8 @@ package: Ascend
 description: 'Ascend school'
 core_version_requirement: ^10 || ^11
 dependencies:
-  # - ascend_audit
-  - entity:entity
-  - entity_admin_handlers:entity_admin_handlers
-  - views:views
+  # Other contrib modules assumed in ascend_audit for brevity.
+  - ascend_audit:ascend_audit
 
 config_devel:
   - core.entity_form_display.school.school.default
