@@ -3,10 +3,9 @@ type: module
 package: Ascend
 description: 'Ascend school'
 core_version_requirement: ^10 || ^11
-dependencies:
+# dependencies:
   # Other contrib modules assumed in ascend_audit for brevity.
-  - ascend_audit:ascend_audit
-
+  
 config_devel:
   - core.entity_form_display.school.school.default
   - core.entity_view_display.school.school.default
