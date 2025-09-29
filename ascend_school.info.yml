@@ -5,7 +5,7 @@ description: 'Ascend school'
 core_version_requirement: ^10 || ^11
 # dependencies:
   # Other contrib modules assumed in ascend_audit for brevity.
-  
+
 config_devel:
   - core.entity_form_display.school.school.default
   - core.entity_view_display.school.school.default
