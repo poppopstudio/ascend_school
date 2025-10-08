@@ -9,10 +9,5 @@
             "homepage": "https://github.com/poppopstudio/ascend_school",
             "role": "Maintainer"
         }
-    ],
-    "require": {
-        "drupal/core": "^10.5",
-        "drupal/entity": "^1.6",
-        "drupal/entity_admin_handlers": "^1.0@beta"
-    }
+    ]
 }
