@@ -9,7 +9,7 @@ dependencies:
     - user
     - views_bulk_operations
 id: school_content
-label: Schools
+label: 'Schools content'
 module: views
 description: 'Content view of schools to override the basic one provided by the module.'
 tag: ''
