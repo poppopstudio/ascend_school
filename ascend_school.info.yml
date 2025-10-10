@@ -16,3 +16,4 @@ config_devel:
   - field.storage.school.ascend_sch_cluster
   - field.storage.school.ascend_sch_dfe
   - taxonomy.vocabulary.cluster
+  - views.view.school_content
