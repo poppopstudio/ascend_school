@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - ascend_school
+id: school
+label: School
+type: school
+pattern: 'school/[school:school_id]/[school:title]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }
