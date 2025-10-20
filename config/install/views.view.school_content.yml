@@ -821,6 +821,7 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            view_school: view_school
             views_bulk_operations_bulk_form: views_bulk_operations_bulk_form
             school_id: school_id
             title: title
@@ -830,8 +831,15 @@ display:
             status: status
             changed: changed
             operations: operations
-          default: '-1'
+          default: title
           info:
+            view_school:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             views_bulk_operations_bulk_form:
               align: ''
               separator: ''
@@ -845,14 +853,14 @@ display:
               empty_column: false
               responsive: ''
             title:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             ascend_sch_dfe:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
