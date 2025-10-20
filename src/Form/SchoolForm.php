@@ -52,7 +52,7 @@ class SchoolForm extends ContentEntityForm {
     $form['meta']['author'] = [
       '#type' => 'item',
       '#title' => $this->t('Author'),
-      '#markup' => $school->getOwner()->getAccountName(),
+      '#markup' => $school->getOwner()?->getAccountName() ?? 'n/a!',
       '#wrapper_attributes' => ['class' => ['entity-meta__author']],
     ];
 
