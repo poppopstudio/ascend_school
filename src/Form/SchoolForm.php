@@ -45,7 +45,6 @@ class SchoolForm extends ContentEntityForm {
     $form['meta']['changed'] = [
       '#type' => 'item',
       '#title' => $this->t('Last saved'),
-      // '#markup' => !$school->isNew() ? $this->dateFormatter->format($school->getChangedTime(), 'short') : $this->t('Not saved yet'),
       '#markup' => !$school->isNew() ? \Drupal::service('date.formatter')->format($school->getChangedTime(), 'short') : $this->t('Not saved yet'),
       '#wrapper_attributes' => ['class' => ['entity-meta__last-saved']],
     ];
