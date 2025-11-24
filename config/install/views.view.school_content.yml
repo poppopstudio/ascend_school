@@ -1,3 +1,4 @@
+uuid: c5150185-fa03-40d8-a2de-42eb95ec813e
 langcode: en
 status: true
 dependencies:
@@ -8,6 +9,8 @@ dependencies:
     - ascend_school
     - user
     - views_bulk_operations
+_core:
+  default_config_hash: kKBoS21rN8g2c-tuIhLadjZx_0W6gkASyLEXG0ESQLI
 id: school_content
 label: 'Schools content'
 module: views
@@ -133,7 +136,6 @@ display:
           buttons: false
           action_title: Action
           clear_on_exposed: true
-          force_selection_info: false
           selected_actions:
             -
               action_id: 'entity:break_lock:school'
@@ -159,6 +161,7 @@ display:
                 add_confirmation: false
                 confirm_help_text: ''
                 message_override: ''
+          force_selection_info: false
         school_id:
           id: school_id
           table: school
@@ -711,32 +714,29 @@ display:
       sorts: {  }
       arguments: {  }
       filters:
-        school_id:
-          id: school_id
+        title:
+          id: title
           table: school
-          field: school_id
+          field: title
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: school
-          entity_field: school_id
-          plugin_id: numeric
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: ''
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: school_id_op
-            label: ID
+            operator_id: title_op
+            label: Name
             description: ''
             use_operator: false
-            operator: school_id_op
+            operator: title_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: school_id
+            identifier: title
             required: false
             remember: false
             multiple: false
@@ -751,8 +751,6 @@ display:
               auditor: '0'
               resource_manager: '0'
               adviser: '0'
-            min_placeholder: ''
-            max_placeholder: ''
             placeholder: ''
           is_grouped: false
           group_info:
@@ -814,6 +812,10 @@ display:
                 title: Unpublished
                 operator: '='
                 value: '0'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: table
         options:
