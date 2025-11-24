@@ -1,4 +1,3 @@
-uuid: c5150185-fa03-40d8-a2de-42eb95ec813e
 langcode: en
 status: true
 dependencies:
@@ -9,8 +8,6 @@ dependencies:
     - ascend_school
     - user
     - views_bulk_operations
-_core:
-  default_config_hash: kKBoS21rN8g2c-tuIhLadjZx_0W6gkASyLEXG0ESQLI
 id: school_content
 label: 'Schools content'
 module: views
