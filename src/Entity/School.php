@@ -179,49 +179,76 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
    * Update the associated auditor's working school if not set.
    */
   protected function updateAuditorWorkingSchool() {
-    // It is assumed the auditor field only stores auditors, per settings!
-    $auditor_id = $this->get('ascend_sch_auditor')->target_id;
 
-    if (!$auditor_id) {
+    // Updates auditors assigned to this school IF they have a blank/no profile.
+    $auditor_ids = array_column(
+      $this->get('ascend_sch_auditor')->getValue(),
+      'target_id'
+    );
+
+    if (empty($auditor_ids)) {
       return;
     }
 
-    // Attempt to load auditor profile.
-    $auditor_profiles = \Drupal::entityTypeManager()
-      ->getStorage('profile')
-      ->loadByProperties([
-        'uid' => $auditor_id,
-        'type' => 'auditor'
-      ]);
+    foreach ($auditor_ids as $auditor_id) {
+      // Attempt to load this auditor's profile(s).
+      $auditor_profiles = \Drupal::entityTypeManager()
+        ->getStorage('profile')
+        ->loadByProperties([
+          'uid' => $auditor_id,
+          'type' => 'auditor'
+        ]);
 
-    // If the auditor doesn't have a profile we can safely create one.
-    if (empty($auditor_profiles)) {
+      // If the auditor doesn't have a profile we can safely create one.
+      if (empty($auditor_profiles)) {
 
-      $auditor_profile = Profile::create([
-        'type' => 'auditor',
-        'uid' => $auditor_id,
-        'ascend_p_school' => ['target_id' => $this->id()]
-      ]);
+        $auditor_profile = Profile::create([
+          'type' => 'auditor',
+          'uid' => $auditor_id,
+          'ascend_p_school' => ['target_id' => $this->id()]
+        ]);
 
-      $auditor_profile->setDefault(TRUE);
-      $auditor_profile->save();
+        $auditor_profile->setDefault(TRUE);
+        $auditor_profile->save();
 
-      // Log the action AND show on-screen message.
-      /** @var $auditor_user Drupal\user\entity\User */
-      $auditor_user = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id);
-      $auditor_name = $auditor_user->getDisplayName();
+        // Show on-screen message informing user what's been done.
+        $auditor_name = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id)->getDisplayName();
 
-      $message = 'Created a profile for auditor @auditor_name (id: @auditor_id) and set their working school to @school_name (id: @school_id).';
-      $context = [
-        '@school_name' => $this->label(),
-        '@school_id' => $this->id(),
-        '@auditor_id' => $auditor_id,
-        '@auditor_name' => $auditor_name
-      ];
+        $message = 'Created a profile for auditor @auditor_name (id: @auditor_id) and set their working school to @school_name (id: @school_id).';
+        $context = [
+          '@school_name' => $this->label(),
+          '@school_id' => $this->id(),
+          '@auditor_id' => $auditor_id,
+          '@auditor_name' => $auditor_name
+        ];
+        \Drupal::messenger()->addMessage(t($message, $context));
 
-      \Drupal::logger('ascend_school')->info($message, $context);
-      \Drupal::messenger()->addMessage(t($message, $context));
+        // If condition was met, we don't need to do anything lower than here.
+        continue;
+      }
+
+      // Number of auditor's profiles should be 1 here, get the 'first' profile.
+      $profile = reset($auditor_profiles);
+
+      // If the auditor's profile has no working school set (school ID is 0).
+      if ($profile->ascend_p_school->target_id == 0) {
+
+        // Set the school ID on the profile and save it.
+        $profile->set('ascend_p_school', ['target_id' => $this->id()]);
+        $profile->save();
+
+        // Show on-screen message informing user what's been done.
+        $auditor_name = \Drupal::entityTypeManager()->getStorage('user')->load($auditor_id)->getDisplayName();
+
+        $message = 'Updated profile for auditor @auditor_name (id: @auditor_id), set their working school to @school_name (id: @school_id).';
+        $context = [
+          '@school_name' => $this->label(),
+          '@school_id' => $this->id(),
+          '@auditor_id' => $auditor_id,
+          '@auditor_name' => $auditor_name
+        ];
+        \Drupal::messenger()->addMessage(t($message, $context));
+      }
     }
   }
-
 }
