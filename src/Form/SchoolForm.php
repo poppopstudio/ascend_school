@@ -18,6 +18,23 @@ class SchoolForm extends ContentEntityForm {
     /** @var \Drupal\ascend_school\Entity\School $school */
     $school = $this->entity;
 
+    // At the moment not clear if this needs to be restricted.
+    
+    // if (isset($form['revision'])) {
+
+    //   // Hide the revision checkbox for restricted roles.
+    //   $restricted_roles = ['',];
+
+    //   $current_user = \Drupal::currentUser();
+
+    //   foreach ($restricted_roles as $role) {
+    //     if ($current_user->hasRole($role)) {
+    //       $form['revision']['#access'] = FALSE;
+    //       break;
+    //     }
+    //   }
+    // }
+
     if ($this->operation == 'edit') {
       $form['#title'] = $this->t('<em>Edit @type</em> @title', [
         '@type' => 'school',
@@ -56,6 +73,13 @@ class SchoolForm extends ContentEntityForm {
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getNewRevisionDefault() {
+    return TRUE;
   }
 
   /**

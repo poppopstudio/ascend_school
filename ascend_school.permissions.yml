@@ -1,3 +1,10 @@
 administer school entities:
   title: Administer School entities
   description: Description for Administer School entities.
+
+view school revisions:
+  title: 'View school revisions'
+revert school revisions:
+  title: 'Revert school revisions'
+delete school revisions:
+  title: 'Delete school revisions'

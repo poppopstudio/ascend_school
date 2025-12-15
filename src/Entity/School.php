@@ -29,7 +29,7 @@ use Drupal\user\EntityOwnerTrait;
  *   show_revision_ui = TRUE,
  *   collection_permission = "access school overview",
  *   handlers = {
- *     "access" = "Drupal\entity\EntityAccessControlHandler",
+ *     "access" = "Drupal\ascend_school\Entity\Handler\SchoolAccess",
  *     "route_provider" = {
  *       "html" = "Drupal\entity_admin_handlers\SingleBundleEntity\SingleBundleEntityHtmlRouteProvider",
  *       "revision" = \Drupal\Core\Entity\Routing\RevisionHtmlRouteProvider::class,
@@ -164,7 +164,7 @@ class School extends EditorialContentEntityBase implements SchoolInterface {
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setComputed(TRUE);
-      
+
     return $fields;
   }
 
