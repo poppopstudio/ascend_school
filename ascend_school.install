@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ascend school module.
+ */
+
+use Drupal\pathauto\PathautoState;
+
+/**
+ * Repoint the "school" pathauto pattern at the canonical_entities:school alias type.
+ *
+ * Release 1.0.2 removed the module's own alias type plugin (ID "school"), but
+ * patterns created from the old config still referenced it and showed up as
+ * "Broken type", so no aliases were generated for new schools.
+ */
+function ascend_school_update_10001(): string {
+  if (!\Drupal::moduleHandler()->moduleExists('pathauto')) {
+    return 'Pathauto is not installed; nothing to do.';
+  }
+  $config = \Drupal::configFactory()->getEditable('pathauto.pattern.school');
+  if ($config->isNew()) {
+    return 'No pathauto.pattern.school config; nothing to do.';
+  }
+  if ($config->get('type') === 'school') {
+    $config->set('type', 'canonical_entities:school')->save(TRUE);
+    \Drupal::entityTypeManager()->getStorage('pathauto_pattern')->resetCache(['school']);
+    return 'pathauto.pattern.school type changed from "school" to "canonical_entities:school".';
+  }
+  return 'pathauto.pattern.school already uses type "' . $config->get('type') . '"; nothing to do.';
+}
+
+/**
+ * Generate aliases for schools that have none.
+ *
+ * While the pattern was broken, pathauto recorded new schools as "no automatic
+ * alias", so a plain bulk generate skips them. Reset that flag and generate.
+ */
+function ascend_school_update_10002(array &$sandbox): string {
+  if (!\Drupal::moduleHandler()->moduleExists('pathauto')) {
+    $sandbox['#finished'] = 1;
+    return 'Pathauto is not installed; nothing to do.';
+  }
+  if (!isset($sandbox['ids'])) {
+    $query = \Drupal::database()->select('school', 'e')->fields('e', ['school_id']);
+    $query->leftJoin('path_alias', 'p', "p.path = CONCAT('/school/', e.school_id) AND p.status = 1");
+    $query->isNull('p.id');
+    $sandbox['ids'] = $query->execute()->fetchCol();
+    $sandbox['total'] = count($sandbox['ids']);
+    $sandbox['done'] = 0;
+    $sandbox['created'] = 0;
+  }
+  $ids = array_splice($sandbox['ids'], 0, 25);
+  $storage = \Drupal::entityTypeManager()->getStorage('school');
+  $generator = \Drupal::service('pathauto.generator');
+  foreach ($storage->loadMultiple($ids) as $entity) {
+    $entity->get('path')->first()->get('pathauto')->setValue(PathautoState::CREATE);
+    $entity->get('path')->first()->get('pathauto')->persist();
+    if ($generator->updateEntityAlias($entity, 'bulkupdate')) {
+      $sandbox['created']++;
+    }
+    $sandbox['done']++;
+  }
+  $sandbox['#finished'] = $sandbox['total'] ? $sandbox['done'] / $sandbox['total'] : 1;
+  return $sandbox['#finished'] >= 1
+    ? "Generated {$sandbox['created']} alias(es) for {$sandbox['total']} school(s) that had none."
+    : "Processed {$sandbox['done']} of {$sandbox['total']}.";
+}

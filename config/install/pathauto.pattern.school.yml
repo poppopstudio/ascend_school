@@ -5,7 +5,7 @@ dependencies:
     - ascend_school
 id: school
 label: School
-type: school
+type: 'canonical_entities:school'
 pattern: 'school/[school:school_id]/[school:title]'
 selection_criteria: {  }
 selection_logic: and
